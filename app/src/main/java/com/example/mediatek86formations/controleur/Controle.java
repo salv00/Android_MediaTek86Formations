@@ -44,22 +44,30 @@ public class Controle {
     }
 
     /**
-     * retourne les formations dont le titre contient le filtre
-     * @param filtre
-     * @return
+     /**
+     * Methode qui retourne la liste des formations avec le filtre.
+     *
+     * @param filtre String
+     * @return lstFiltre List<Formation>
      */
-    public ArrayList<Formation> getLesFormationFiltre(String filtre){
-        ArrayList<Formation> lesFormationsFiltre = new ArrayList<>();
-        for(Formation uneFormation : lesFormations){
-            if(uneFormation.getTitle().toUpperCase().contains(filtre.toUpperCase())){
-                lesFormationsFiltre.add(uneFormation);
+    public List<Formation> getLesFormationFiltre(String filtre) {
+        List<Formation> lstFiltre = new ArrayList<>();
+        if (lesFormationsChoix != null) {
+            for (Formation uneFormation : lesFormationsChoix) {
+                if (uneFormation.getTitle().toUpperCase().contains(filtre.toUpperCase())) {
+                    lstFiltre.add(uneFormation);
+                }
             }
         }
-        return lesFormationsFiltre;
+        return lstFiltre;
     }
 
     public void setLesFormations(ArrayList<Formation> lesFormations) {
         this.lesFormations = lesFormations;
     }
 
+
+
 }
+
+
