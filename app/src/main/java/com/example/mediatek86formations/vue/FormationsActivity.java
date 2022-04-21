@@ -37,11 +37,7 @@ public class FormationsActivity extends AppCompatActivity {
     /**
      * Propriété contenant la liste des formations.
      */
-    private List<Formation> lesFormationsChoix;
-    /**
-     * Propriété contenant la liste des id des formations favorites.
-     */
-    private List<Integer> lesFavoris;
+    private ArrayList<Formation> lesFormations;
 
     /**
      * Methode générant l'activité de formations.
@@ -59,14 +55,12 @@ public class FormationsActivity extends AppCompatActivity {
      * Methode qui initialise les objets graphiques et récupére l'instance du controleur.
      */
     private void init() {
+        controle = Controle.getInstance();
         btnFiltrer = findViewById(R.id.btnFiltrer);
         txtFiltre = findViewById(R.id.txtFiltre);
 
-        controle = Controle.getInstance(this);
-
-        lesFormationsChoix = controle.getLesFormationsChoix();
-        lesFavoris = Controle.getLesFavoris();
-        creerListe(lesFormationsChoix);
+        lesFormations = controle.getLesFormations();
+        creerListe(lesFormations);
         ecouteFiltre();
     }
 
@@ -75,28 +69,33 @@ public class FormationsActivity extends AppCompatActivity {
      *
      * @param lesFormations List<Formation>
      */
-    private void creerListe(final List<Formation> lesFormations) {
-        if (lesFormations != null) {
-            Collections.sort(lesFormations, Collections.reverseOrder());
-            ListView listView = findViewById(R.id.lstFormations);
-            FormationListAdapter adapter = new FormationListAdapter(lesFormations, lesFavoris, FormationsActivity.this);
-            listView.setAdapter(adapter);
+        private void creerListe(ArrayList<Formation> lesFormations){
+            if (lesFormations != null) {
+                Collections.sort(lesFormations, Collections.<Formation>reverseOrder());
+                ListView listView = (ListView)findViewById(R.id.lstFormations);
+                FormationListAdapter adapter = new FormationListAdapter(lesFormations,FormationsActivity.this);
+                listView.setAdapter(adapter);
         }
     }
 
     /**
      * Methode événementielle sur le clic du button filtrer. Permet de filtrer les formations sur le titre.
      */
-    private void ecouteFiltre() {
-        txtFiltre = findViewById(R.id.txtFiltre);
-        btnFiltrer.setOnClickListener(v -> {
-            if (!txtFiltre.getText().toString().equals("")) {
-                List<Formation> lstFormationFiltre = new ArrayList<>(controle.getLesFormationFiltre(txtFiltre.getText().toString()));
+    private void ecouteFiltre(){
+        txtFiltre = (EditText) findViewById(R.id.txtFiltre);
+        btnFiltrer.setOnClickListener(new View.OnClickListener() {
+        @Override
+            public void onClick(View v){
+                ArrayList<Formation> lstFormationFiltre = new ArrayList<Formation>(controle.getLesFormationFiltre(txtFiltre.getText().toString()));
+                if (txtFiltre.getText().toString() != "") {
                 creerListe(lstFormationFiltre);
-            } else {
-                lesFormationsChoix = controle.getLesFormationsChoix();
-                creerListe(lesFormationsChoix);
+                }
+                else {
+                    controle.setLesFormations(controle.getLesFormations());
+                    creerListe(lesFormations);
+                }
             }
+
         });
     }
 }

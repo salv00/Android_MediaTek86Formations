@@ -44,19 +44,15 @@ public class Controle {
     }
 
     /**
-     /**
-     * Methode qui retourne la liste des formations avec le filtre.
-     *
-     * @param filtre String
-     * @return lstFiltre List<Formation>
+     * retourne les formations dont le titre contient le filtre
+     * @param filtre
+     * @return
      */
-    public List<Formation> getLesFormationFiltre(String filtre) {
-        List<Formation> lstFiltre = new ArrayList<>();
-        if (lesFormationsChoix != null) {
-            for (Formation uneFormation : lesFormationsChoix) {
-                if (uneFormation.getTitle().toUpperCase().contains(filtre.toUpperCase())) {
-                    lstFiltre.add(uneFormation);
-                }
+    public ArrayList<Formation> getLesFormationFiltre(String filtre){
+        ArrayList<Formation> lstFiltre = new ArrayList<>();
+        for(Formation uneFormation : lesFormations){
+            if(uneFormation.getTitle().toUpperCase().contains(filtre.toUpperCase())){
+                lstFiltre.add(uneFormation);
             }
         }
         return lstFiltre;
