@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mediatek86formations" >
+    package="com.example.mediatek86formations">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,13 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MediaTek86Formations"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".vue.FavorisActivity"
+            android:exported="false"
+            android:parentActivityName=".vue.MainActivity"
+            />
         <activity
             android:name=".vue.VideoActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false"
-            android:parentActivityName=".vue.UneFormationActivity" />
+            android:parentActivityName=".vue.UneFormationActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".vue.UneFormationActivity"
             android:exported="false"
@@ -28,7 +33,7 @@
             android:parentActivityName=".vue.MainActivity" />
         <activity
             android:name=".vue.MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

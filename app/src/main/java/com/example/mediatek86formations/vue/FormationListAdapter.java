@@ -120,7 +120,7 @@ public class FormationListAdapter extends BaseAdapter {
         viewProperties.btnListFavori.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lesFavoris.contains(lesFormations.get(i).getId())){
+                    if(lesFavoris.contains(lesFormations.get(i).getId())){
                     Log.d("onclik","***************************** si rouge::: "+ "id formation"+":::" +(int)getItemId(i+1)+ lesFavoris.toString());
                     viewProperties.btnListFavori.setImageResource(R.drawable.coeur_gris);
                     Log.d("onclik", "lesfavoris: " +lesFavoris.toString());

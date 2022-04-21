@@ -47,16 +47,16 @@ public class Controle {
      * @return instance
      */
     public static final Controle getInstance(Context context){
-        if(Controle.instance == null) {
+         if(Controle.instance == null) {
             Controle.instance = new Controle();
 
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    accesDistant = new AccesDistant();
-                    accesDistant.envoi("tous", null);
-                }
-            }, 900);   //900 milliseconds
+             Handler handler = new Handler();
+             handler.postDelayed(new Runnable() {
+                 public void run() {
+                     accesDistant = new AccesDistant();
+                     accesDistant.envoi("tous", null);
+                 }
+             }, 900);   //900 milliseconds
 
             accesLocal = new AccesLocal(context);
             lesFavoris = accesLocal.recup();
