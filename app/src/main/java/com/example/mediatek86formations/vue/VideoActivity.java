@@ -2,6 +2,7 @@ package com.example.mediatek86formations.vue;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -29,7 +30,7 @@ public class VideoActivity extends AppCompatActivity {
      * Affichage  de la vidéo
      */
     private void init(){
-        Controle controle = Controle.getInstance();
+        Controle controle = Controle.getInstance(this);
         Formation formation = controle.getFormation();
         if(formation!=null) {
             wbvYoutube = findViewById(R.id.wbvYoutube);

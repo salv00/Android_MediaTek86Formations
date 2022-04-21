@@ -1,5 +1,6 @@
 package com.example.mediatek86formations.modele;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.mediatek86formations.controleur.Controle;
@@ -16,19 +17,21 @@ import java.util.Date;
 
 public class AccesDistant implements AsyncResponse {
 
-    private static final String SERVERADDR = "http://192.168.0.149/rest_mediatek86formations/";
+    private static final String SERVERADDR = "http://192.168.1.30/rest_mediatek86formations/";
     private Controle controle;
+    private Context context;
 
     /**
      * constructeur
      */
     public AccesDistant(){
-        controle = Controle.getInstance();
+        controle = Controle.getInstance(context);
     }
 
     /**
      * retour du serveur distant
      * @param output
+     * @return
      */
     @Override
     public void processFinish(String output) {
@@ -38,7 +41,8 @@ public class AccesDistant implements AsyncResponse {
             String message = retour.getString("message");
             if (!message.equals("OK")) {
                 Log.d("erreur", "********* problème retour api rest :" + message);
-            } else {
+            }
+            else {
                 JSONArray infos = retour.getJSONArray("result");
                 ArrayList<Formation> lesFormations = new ArrayList<>();
                 for (int k = 0; k < infos.length(); k++) {
@@ -55,6 +59,7 @@ public class AccesDistant implements AsyncResponse {
                     lesFormations.add(formation);
                 }
                 controle.setLesFormations(lesFormations);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ import com.example.mediatek86formations.modele.Formation;
 import com.example.mediatek86formations.outils.MesOutils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 public class UneFormationActivity extends AppCompatActivity {
 
     private ImageButton btnPicture;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +29,7 @@ public class UneFormationActivity extends AppCompatActivity {
      * Remplissage des objets graphiques
      */
     private void init(){
-        Controle controle = Controle.getInstance();
+        Controle controle = Controle.getInstance(this);
         TextView txtPublishedAt = (TextView) findViewById(R.id.txtPublishedAt);
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -57,5 +57,4 @@ public class UneFormationActivity extends AppCompatActivity {
             }
         });
     }
-
 }

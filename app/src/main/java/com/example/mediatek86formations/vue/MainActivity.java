@@ -3,6 +3,7 @@ package com.example.mediatek86formations.vue;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import com.example.mediatek86formations.R;
 import com.example.mediatek86formations.controleur.Controle;
 
 public class MainActivity extends AppCompatActivity {
-
+    private Controle controle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
      * initialisations
      */
     private void init(){
-        Controle.getInstance();
         creerMenu();
+        controle = Controle.getInstance(this);
     }
 
     /**
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void creerMenu(){
         ecouteMenu((ImageButton)findViewById(R.id.btnFormations), FormationsActivity.class);
+        ecouteMenu((ImageButton)findViewById(R.id.btnFavoris), FavorisActivity.class);
     }
 
     /**

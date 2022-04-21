@@ -1,7 +1,11 @@
 package com.example.mediatek86formations.vue;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +17,13 @@ import com.example.mediatek86formations.controleur.Controle;
 import com.example.mediatek86formations.modele.Formation;
 import com.example.mediatek86formations.outils.MesOutils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class FormationListAdapter extends BaseAdapter {
 
     private ArrayList<Formation> lesFormations;
+    private ArrayList<Integer> lesFavoris ;
     private LayoutInflater inflater;
     private Controle controle;
     private Context context;
@@ -27,9 +33,10 @@ public class FormationListAdapter extends BaseAdapter {
      * @param lesFormations
      * @param context
      */
-    public FormationListAdapter(ArrayList<Formation> lesFormations, Context context) {
+    public FormationListAdapter(ArrayList<Formation> lesFormations,ArrayList<Integer> lesFavoris, Context context) {
         this.lesFormations = lesFormations;
-        this.controle = Controle.getInstance();
+        this.lesFavoris = lesFavoris;
+        this.controle = Controle.getInstance(context);
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
@@ -64,7 +71,7 @@ public class FormationListAdapter extends BaseAdapter {
     }
 
     /**
-     * Cobstruction de la ligne
+     * Construction de la ligne
      * @param i
      * @param view
      * @param viewGroup
@@ -83,6 +90,7 @@ public class FormationListAdapter extends BaseAdapter {
         }else{
             viewProperties = (ViewProperties)view.getTag();
         }
+
         viewProperties.txtListeTitle.setText(lesFormations.get(i).getTitle());
         viewProperties.txtListPublishedAt.setText(lesFormations.get(i).getPublishedAtToString());
         viewProperties.txtListeTitle.setTag(i);
@@ -92,6 +100,7 @@ public class FormationListAdapter extends BaseAdapter {
                 ouvrirUneFormationActivity(v);
             }
         });
+
         viewProperties.txtListPublishedAt.setTag(i);
         viewProperties.txtListPublishedAt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +108,50 @@ public class FormationListAdapter extends BaseAdapter {
                 ouvrirUneFormationActivity(v);
             }
         });
+
+        viewProperties.txtListPublishedAt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirUneFormationActivity(v);
+            }
+        });
+
+        viewProperties.btnListFavori.setImageResource(selectFavBtnColor(i));
+        viewProperties.btnListFavori.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lesFavoris.contains(lesFormations.get(i).getId())){
+                    Log.d("onclik","***************************** si rouge::: "+ "id formation"+":::" +(int)getItemId(i+1)+ lesFavoris.toString());
+                    viewProperties.btnListFavori.setImageResource(R.drawable.coeur_gris);
+                    Log.d("onclik", "lesfavoris: " +lesFavoris.toString());
+                    controle.removeFav(lesFormations.get(i));
+                }
+
+                else{
+                    Log.d("onclik","***************************** si gris");
+                    viewProperties.btnListFavori.setImageResource(R.drawable.coeur_rouge);
+                    Log.d("onclik","***************************** "+ "id formation"+":::" +(int)getItemId(i+1)+ "i: "+ i+1 + lesFavoris.toString());
+                    //controle.ajoutFavoris(i+1);
+                    controle.ajoutFavoris(lesFormations.get(i));
+                }
+                lesFavoris = controle.getLesFavoris();
+                notifyDataSetChanged();
+
+            }
+        });
         return view;
     }
 
+    private int selectFavBtnColor(int id){
+        if(lesFavoris.contains(lesFormations.get(id).getId())){
+            Log.d("onclik", "ligne rouge " +lesFavoris.toString());
+            return R.drawable.coeur_rouge;
+        }
+        else{
+            Log.d("onclik", "ligne grise " +lesFavoris.toString());
+            return R.drawable.coeur_gris;
+        }
+    }
     /**
      * Ouvre la page du détail de la formation
      * @param v
@@ -121,5 +171,4 @@ public class FormationListAdapter extends BaseAdapter {
         TextView txtListPublishedAt;
         TextView txtListeTitle;
     }
-
 }
